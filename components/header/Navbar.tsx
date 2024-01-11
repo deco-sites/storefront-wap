@@ -6,6 +6,7 @@ import CartButtonShopify from "$store/islands/Header/Cart/shopify.tsx";
 import CartButtonVDNA from "$store/islands/Header/Cart/vnda.tsx";
 import CartButtonVTEX from "$store/islands/Header/Cart/vtex.tsx";
 import CartButtonWake from "$store/islands/Header/Cart/wake.tsx";
+import CartButtonWap from "$store/islands/Header/Cart/wap.tsx";
 import CartButtonNuvemshop from "$store/islands/Header/Cart/nuvemshop.tsx";
 import Searchbar from "$store/islands/Header/Searchbar.tsx";
 import { usePlatform } from "$store/sdk/usePlatform.tsx";
@@ -14,7 +15,11 @@ import Image from "apps/website/components/Image.tsx";
 import NavItem from "./NavItem.tsx";
 import { navbarHeight } from "./constants.ts";
 
-function Navbar({ items, searchbar, logo }: {
+function Navbar({
+  items,
+  searchbar,
+  logo,
+}: {
   items: SiteNavigationElement[];
   searchbar?: SearchbarProps;
   logo?: { src: string; alt: string };
@@ -45,6 +50,7 @@ function Navbar({ items, searchbar, logo }: {
           <SearchButton />
           {platform === "vtex" && <CartButtonVTEX />}
           {platform === "vnda" && <CartButtonVDNA />}
+          {platform === "wap" && <CartButtonWap />}
         </div>
       </div>
 
@@ -62,14 +68,16 @@ function Navbar({ items, searchbar, logo }: {
           )}
         </div>
         <div class="flex-auto flex justify-center">
-          {items.map((item) => <NavItem item={item} />)}
+          {items.map((item) => (
+            <NavItem item={item} />
+          ))}
         </div>
         <div class="flex-none w-44 flex items-center justify-end gap-2">
           <SearchButton />
           <Searchbar searchbar={searchbar} />
           <a
             class="btn btn-circle btn-sm btn-ghost"
-            href="/login"
+            href="/checkout/acesso/"
             aria-label="Log in"
           >
             <Icon id="User" size={24} strokeWidth={0.4} />
@@ -79,16 +87,12 @@ function Navbar({ items, searchbar, logo }: {
             href="/wishlist"
             aria-label="Wishlist"
           >
-            <Icon
-              id="Heart"
-              size={24}
-              strokeWidth={2}
-              fill="none"
-            />
+            <Icon id="Heart" size={24} strokeWidth={2} fill="none" />
           </a>
           {platform === "vtex" && <CartButtonVTEX />}
           {platform === "vnda" && <CartButtonVDNA />}
           {platform === "wake" && <CartButtonWake />}
+          {platform === "wap" && <CartButtonWap />}
           {platform === "linx" && <CartButtonLinx />}
           {platform === "shopify" && <CartButtonShopify />}
           {platform === "nuvemshop" && <CartButtonNuvemshop />}

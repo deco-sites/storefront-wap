@@ -5,6 +5,7 @@ import AddToCartButtonShopify from "$store/islands/AddToCartButton/shopify.tsx";
 import AddToCartButtonVNDA from "$store/islands/AddToCartButton/vnda.tsx";
 import AddToCartButtonVTEX from "$store/islands/AddToCartButton/vtex.tsx";
 import AddToCartButtonWake from "$store/islands/AddToCartButton/wake.tsx";
+import AddToCartButtonWap from "$store/islands/AddToCartButton/wap.tsx";
 import AddToCartButtonNuvemshop from "$store/islands/AddToCartButton/nuvemshop.tsx";
 import OutOfStock from "$store/islands/OutOfStock.tsx";
 import ShippingSimulation from "$store/islands/ShippingSimulation.tsx";
@@ -33,14 +34,14 @@ function ProductInfo({ page, layout }: Props) {
   const platform = usePlatform();
   const id = useId();
 
+
+  console.log(page)
+  
   if (page === null) {
     throw new Error("Missing Product Details Page Info");
   }
 
-  const {
-    breadcrumbList,
-    product,
-  } = page;
+  const { breadcrumbList, product } = page;
   const {
     productID,
     offers,
@@ -77,11 +78,7 @@ function ProductInfo({ page, layout }: Props) {
       {/* Code and name */}
       <div class="mt-4 sm:mt-8">
         <div>
-          {gtin && (
-            <span class="text-sm text-base-300">
-              Cod. {gtin}
-            </span>
-          )}
+          {gtin && <span class="text-sm text-base-300">Cod. {gtin}</span>}
         </div>
         <h1>
           <span class="font-medium text-xl capitalize">
@@ -105,9 +102,7 @@ function ProductInfo({ page, layout }: Props) {
             {formatPrice(price, offers?.priceCurrency)}
           </span>
         </div>
-        <span class="text-sm text-base-300">
-          {installments}
-        </span>
+        <span class="text-sm text-base-300">{installments}</span>
       </div>
       {/* Sku Selector */}
       <div class="mt-4 sm:mt-6">
@@ -115,69 +110,84 @@ function ProductInfo({ page, layout }: Props) {
       </div>
       {/* Add to Cart and Favorites button */}
       <div class="mt-4 sm:mt-10 flex flex-col gap-2">
-        {availability === "https://schema.org/InStock"
-          ? (
-            <>
-              {platform === "vtex" && (
-                <>
-                  <AddToCartButtonVTEX
-                    eventParams={{ items: [eventItem] }}
-                    productID={productID}
-                    seller={seller}
-                  />
-                  <WishlistButton
-                    variant="full"
-                    productID={productID}
-                    productGroupID={productGroupID}
-                  />
-                </>
-              )}
-              {platform === "wake" && (
-                <AddToCartButtonWake
+        {availability === "https://schema.org/InStock" ? (
+          <>
+            {platform === "vtex" && (
+              <>
+                <AddToCartButtonVTEX
                   eventParams={{ items: [eventItem] }}
                   productID={productID}
+                  seller={seller}
                 />
-              )}
-              {platform === "linx" && (
-                <AddToCartButtonLinx
-                  eventParams={{ items: [eventItem] }}
+                <WishlistButton
+                  variant="full"
                   productID={productID}
                   productGroupID={productGroupID}
                 />
-              )}
-              {platform === "vnda" && (
-                <AddToCartButtonVNDA
+              </>
+            )}
+            {platform === "wake" && (
+              <AddToCartButtonWake
+                eventParams={{ items: [eventItem] }}
+                productID={productID}
+              />
+            )}
+            {platform === "wap" && (
+              <>
+                <AddToCartButtonWap
                   eventParams={{ items: [eventItem] }}
                   productID={productID}
-                  additionalProperty={additionalProperty}
                 />
-              )}
-              {platform === "shopify" && (
-                <AddToCartButtonShopify
-                  eventParams={{ items: [eventItem] }}
+                <WishlistButton
+                  variant="full"
                   productID={productID}
-                />
-              )}
-              {platform === "nuvemshop" && (
-                <AddToCartButtonNuvemshop
                   productGroupID={productGroupID}
-                  eventParams={{ items: [eventItem] }}
-                  additionalProperty={additionalProperty}
                 />
-              )}
-            </>
-          )
-          : <OutOfStock productID={productID} />}
+              </>
+            )}
+            {platform === "linx" && (
+              <AddToCartButtonLinx
+                eventParams={{ items: [eventItem] }}
+                productID={productID}
+                productGroupID={productGroupID}
+              />
+            )}
+            {platform === "vnda" && (
+              <AddToCartButtonVNDA
+                eventParams={{ items: [eventItem] }}
+                productID={productID}
+                additionalProperty={additionalProperty}
+              />
+            )}
+            {platform === "shopify" && (
+              <AddToCartButtonShopify
+                eventParams={{ items: [eventItem] }}
+                productID={productID}
+              />
+            )}
+            {platform === "nuvemshop" && (
+              <AddToCartButtonNuvemshop
+                productGroupID={productGroupID}
+                eventParams={{ items: [eventItem] }}
+                additionalProperty={additionalProperty}
+              />
+            )}
+          </>
+        ) : (
+          <OutOfStock productID={productID} />
+        )}
       </div>
       {/* Shipping Simulation */}
       <div class="mt-8">
         {platform === "vtex" && (
           <ShippingSimulation
-            items={[{
-              id: Number(product.sku),
-              quantity: 1,
-              seller: seller,
-            }]}
+            items={[
+              {
+                id: Number(product.sku),
+                quantity: 1,
+                seller: seller,
+              },
+            ]}
           />
         )}
       </div>

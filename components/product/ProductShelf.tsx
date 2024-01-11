@@ -90,7 +90,7 @@ function ProductShelf({
                 mapProductToAnalyticsItem({
                   index,
                   product,
-                  ...(useOffer(product.offers)),
+                  ...useOffer(product.offers),
                 })
               ),
             },

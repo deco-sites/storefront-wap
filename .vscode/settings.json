@@ -12,5 +12,9 @@
   },
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "eslint.validate": [
+    "glimmer-ts",
+    "glimmer-js"
+  ]
 }

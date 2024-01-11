@@ -1,8 +1,8 @@
 import { useComputed, useSignal } from "@preact/signals";
 import Icon from "$store/components/ui/Icon.tsx";
 import Button from "$store/components/ui/Button.tsx";
-import { useWishlist } from "apps/vtex/hooks/useWishlist.ts";
-import { useUser } from "apps/vtex/hooks/useUser.ts";
+import { useWishlist } from "apps/wap/hooks/useWishlist.ts";
+import { useUser } from "apps/wap/hooks/useUser.ts";
 import { sendEvent } from "$store/sdk/analytics.tsx";
 
 export interface Props {
@@ -18,19 +18,23 @@ function WishlistButton({
 }: Props) {
   const { user } = useUser();
   const { loading, addItem, removeItem, getItem } = useWishlist();
-  const listItem = useComputed(() =>
-    getItem({ sku: productID, productId: productGroupID })
-  );
+  const listItem = useComputed(() => getItem(Number(productID)));
   const fetching = useSignal(false);
+
+  console.log(productID);
 
   const isUserLoggedIn = Boolean(user.value?.email);
   const inWishlist = Boolean(listItem.value);
 
+  console.log(inWishlist);
+
   return (
     <Button
-      class={variant === "icon"
-        ? "btn-circle btn-ghost gap-2"
-        : "btn-primary btn-outline gap-2"}
+      class={
+        variant === "icon"
+          ? "btn-circle btn-ghost gap-2"
+          : "btn-primary btn-outline gap-2"
+      }
       loading={fetching.value}
       aria-label="Add to wishlist"
       onClick={async (e) => {
@@ -51,18 +55,31 @@ function WishlistButton({
           fetching.value = true;
 
           if (inWishlist) {
-            await removeItem({ id: listItem.value!.id }!);
-          } else if (productID && productGroupID) {
-            await addItem({ sku: productID, productId: productGroupID });
+            await removeItem({
+              idProduto: Number(productID),
+              idAtributoSimples: 0,
+              idUnidadeVenda: 0,
+              parametroAdicional: "",
+            });
+          } else if (productID) {
+            await addItem({
+              idProduto: Number(productID),
+              idAtributoSimples: 0,
+              idUnidadeVenda: 0,
+              quantidade: 1,
+              parametroAdicional: "",
+            });
 
             sendEvent({
               name: "add_to_wishlist",
               params: {
-                items: [{
-                  item_id: productID,
-                  item_group_id: productGroupID,
-                  quantity: 1,
-                }],
+                items: [
+                  {
+                    item_id: productID,
+                    item_group_id: productGroupID,
+                    quantity: 1,
+                  },
+                ],
               },
             });
           }

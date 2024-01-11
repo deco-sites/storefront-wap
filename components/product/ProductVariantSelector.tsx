@@ -11,6 +11,9 @@ function VariantSelector({ product }: Props) {
   const hasVariant = isVariantOf?.hasVariant ?? [];
   const possibilities = useVariantPossibilities(hasVariant, product);
 
+  console.log(product.isVariantOf);
+  console.log({ possibilities });
+
   return (
     <ul class="flex flex-col gap-4">
       {Object.keys(possibilities).map((name) => (
@@ -22,11 +25,9 @@ function VariantSelector({ product }: Props) {
                 <button f-partial={link} f-client-nav>
                   <Avatar
                     content={value}
-                    variant={link === url
-                      ? "active"
-                      : link
-                      ? "default"
-                      : "disabled"}
+                    variant={
+                      link === url ? "active" : link ? "default" : "disabled"
+                    }
                   />
                 </button>
               </li>

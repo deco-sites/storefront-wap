@@ -25,12 +25,16 @@ export interface Props {
 export default function GallerySlider(props: Props) {
   const id = useId();
 
+  console.log(props);
+
   if (props.page === null) {
     throw new Error("Missing Product Details Page Info");
   }
 
   const {
-    page: { product: { image: images = [] } },
+    page: {
+      product: { image: images = [] },
+    },
     layout: { width, height },
   } = props;
   const aspectRatio = `${width} / ${height}`;
@@ -41,10 +45,7 @@ export default function GallerySlider(props: Props) {
       <div class="relative order-1 sm:order-2">
         <Slider class="carousel carousel-center gap-6 w-screen sm:w-[40vw]">
           {images.map((img, index) => (
-            <Slider.Item
-              index={index}
-              class="carousel-item w-full"
-            >
+            <Slider.Item index={index} class="carousel-item w-full">
               <Image
                 class="w-full"
                 sizes="(max-width: 640px) 100vw, 40vw"
@@ -79,7 +80,7 @@ export default function GallerySlider(props: Props) {
           <ProductImageZoom
             images={images}
             width={700}
-            height={Math.trunc(700 * height / width)}
+            height={Math.trunc((700 * height) / width)}
           />
         </div>
       </div>
