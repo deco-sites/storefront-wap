@@ -4,9 +4,13 @@ import Button from "$store/components/ui/Button.tsx";
 import { formatPrice } from "$store/sdk/format.ts";
 import { useCart } from "apps/vtex/hooks/useCart.ts";
 import type { SimulationOrderForm, SKU, Sla } from "apps/vtex/utils/types.ts";
+import { invoke } from "$store/runtime.ts";
 
 export interface Props {
   items: Array<SKU>;
+  idProduto: number;
+  idAtributoValor: number;
+  quantidade: number;
 }
 
 const formatShippingEstimate = (estimate: string) => {
@@ -17,7 +21,9 @@ const formatShippingEstimate = (estimate: string) => {
   if (type === "h") return `${time} horas`;
 };
 
-function ShippingContent({ simulation }: {
+function ShippingContent({
+  simulation,
+}: {
   simulation: Signal<SimulationOrderForm | null>;
 }) {
   const { cart } = useCart();
@@ -27,8 +33,8 @@ function ShippingContent({ simulation }: {
     [] as Sla[],
   ) ?? [];
 
-  const locale = cart.value?.clientPreferencesData.locale || "pt-BR";
-  const currencyCode = cart.value?.storePreferencesData.currencyCode || "BRL";
+  const locale = cart.value?.clientPreferencesData?.locale || "pt-BR";
+  const currencyCode = cart.value?.storePreferencesData?.currencyCode || "BRL";
 
   if (simulation.value == null) {
     return null;
@@ -46,16 +52,14 @@ function ShippingContent({ simulation }: {
     <ul class="flex flex-col gap-4 p-4 bg-base-200 rounded-[4px]">
       {methods.map((method) => (
         <li class="flex justify-between items-center border-base-200 not-first-child:border-t">
-          <span class="text-button text-center">
-            Entrega {method.name}
-          </span>
+          <span class="text-button text-center">Entrega {method.name}</span>
           <span class="text-button">
             até {formatShippingEstimate(method.shippingEstimate)}
           </span>
           <span class="text-base font-semibold text-right">
-            {method.price === 0 ? "Grátis" : (
-              formatPrice(method.price / 100, currencyCode, locale)
-            )}
+            {method.price === 0
+              ? "Grátis"
+              : formatPrice(method.price / 100, currencyCode, locale)}
           </span>
         </li>
       ))}
@@ -68,7 +72,12 @@ function ShippingContent({ simulation }: {
   );
 }
 
-function ShippingSimulation({ items }: Props) {
+function ShippingSimulation({
+  items,
+  idProduto,
+  idAtributoValor,
+  quantidade,
+}: Props) {
   const postalCode = useSignal("");
   const loading = useSignal(false);
   const simulateResult = useSignal<SimulationOrderForm | null>(null);
@@ -81,10 +90,18 @@ function ShippingSimulation({ items }: Props) {
 
     try {
       loading.value = true;
+      console.log(
+        await invoke.wap.actions.shipment.product({
+          cep: postalCode.value,
+          idProduto,
+          idAtributoValor,
+          quantidade: 1,
+        }),
+      );
       simulateResult.value = await simulate({
         items: items,
         postalCode: postalCode.value,
-        country: cart.value?.storePreferencesData.countryCode || "BRA",
+        country: cart.value?.storePreferencesData?.countryCode || "BRA",
       });
     } finally {
       loading.value = false;
@@ -95,9 +112,7 @@ function ShippingSimulation({ items }: Props) {
     <div class="flex flex-col gap-2">
       <div class="flex flex-col">
         <span>Calcular frete</span>
-        <span>
-          Informe seu CEP para consultar os prazos de entrega
-        </span>
+        <span>Informe seu CEP para consultar os prazos de entrega</span>
       </div>
 
       <form

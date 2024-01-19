@@ -68,9 +68,7 @@ function Navbar({
           )}
         </div>
         <div class="flex-auto flex justify-center">
-          {items.map((item) => (
-            <NavItem item={item} />
-          ))}
+          {items.map((item) => <NavItem item={item} />)}
         </div>
         <div class="flex-none w-44 flex items-center justify-end gap-2">
           <SearchButton />

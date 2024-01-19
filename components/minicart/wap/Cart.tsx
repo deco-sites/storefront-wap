@@ -3,7 +3,7 @@ import BaseCart from "../common/Cart.tsx";
 
 function Cart() {
   const { cart, loading, updateItem, updateCoupon, removeItem } = useCart();
-  const items = cart.value.itens ?? [];
+  const items = cart.value?.itens ?? [];
 
   const total = cart.value.subtotal?.valor ?? 0;
   const subtotal = cart.value.subtotal?.valor ?? 0;
@@ -32,21 +32,20 @@ function Cart() {
       onUpdateQuantity={(quantidade: number, index: number) =>
         quantidade === 0
           ? removeItem({
-              tipo: "produto",
-              idProduto: items[index]?.hash.idProduto,
-              idAtributoSimples: 0,
-              idUnidadeVenda: 0,
-              idArmazem: 0,
-            })
+            tipo: "produto",
+            idProduto: items[index]?.hash.idProduto,
+            idAtributoSimples: items[index]?.hash.idAtributoSimples,
+            idUnidadeVenda: items[index]?.hash.idUnidadeVenda,
+            idArmazem: items[index]?.hash.idArmazem,
+          })
           : updateItem({
-              tipo: "produto",
-              quantidade,
-              idProduto: items[index]?.hash.idProduto,
-              idAtributoSimples: 0,
-              idUnidadeVenda: 0,
-              idArmazem: 0,
-            })
-      }
+            tipo: "produto",
+            quantidade,
+            idProduto: items[index]?.hash.idProduto,
+            idAtributoSimples: items[index]?.hash.idAtributoSimples,
+            idUnidadeVenda: items[index]?.hash.idUnidadeVenda,
+            idArmazem: items[index]?.hash.idArmazem,
+          })}
       itemToAnalyticsItem={(index) => {
         const item = items[index];
 

@@ -86,11 +86,9 @@ function Searchbar({
           for={id}
           tabIndex={-1}
         >
-          {loading.value ? (
-            <span class="loading loading-spinner loading-xs" />
-          ) : (
-            <Icon id="MagnifyingGlass" size={24} strokeWidth={0.01} />
-          )}
+          {loading.value
+            ? <span class="loading loading-spinner loading-xs" />
+            : <Icon id="MagnifyingGlass" size={24} strokeWidth={0.01} />}
         </Button>
         <input
           ref={searchInputRef}

@@ -25,8 +25,6 @@ export interface Props {
 export default function GallerySlider(props: Props) {
   const id = useId();
 
-  console.log(props);
-
   if (props.page === null) {
     throw new Error("Missing Product Details Page Info");
   }
