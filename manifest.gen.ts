@@ -38,6 +38,7 @@ import * as $$$$$$30 from "./sections/Links/Shortcuts.tsx";
 import * as $$$$$$31 from "./sections/Links/LinkTree.tsx";
 import * as $$$$$$32 from "./sections/Miscellaneous/CookieConsent.tsx";
 import * as $$$$$$33 from "./sections/Miscellaneous/CampaignTimer.tsx";
+import * as $$$$$$34 from "./sections/Miscellaneous/Contact.tsx";
 import * as $$$$$$$$$$$0 from "./apps/site.ts";
 import * as $$$$$$$$$$$1 from "./apps/decohub.ts";
 
@@ -68,6 +69,7 @@ const manifest = {
     "deco-sites/storefront-wap/sections/Links/Shortcuts.tsx": $$$$$$30,
     "deco-sites/storefront-wap/sections/Miscellaneous/CampaignTimer.tsx":
       $$$$$$33,
+    "deco-sites/storefront-wap/sections/Miscellaneous/Contact.tsx": $$$$$$34,
     "deco-sites/storefront-wap/sections/Miscellaneous/CookieConsent.tsx":
       $$$$$$32,
     "deco-sites/storefront-wap/sections/Newsletter/Newsletter.tsx": $$$$$$13,

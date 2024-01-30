@@ -2,7 +2,7 @@ import { useMemo } from "preact/hooks";
 import { ProductListingPage } from "apps/commerce/types.ts";
 import type { JSX } from "preact";
 
-const SORT_QUERY_PARAM = "sort";
+const SORT_QUERY_PARAM = "order";
 
 const useSort = () =>
   useMemo(() => {
@@ -42,15 +42,19 @@ function Sort({ sortOptions }: Props) {
       onInput={applySort}
       class="w-min h-[36px] px-1 rounded m-2 text-base-content cursor-pointer outline-none"
     >
-      {sortOptions.map(({ value, label }) => ({
-        value,
-        label: portugueseMappings[label as keyof typeof portugueseMappings] ??
-          label,
-      })).filter(({ label }) => label).map(({ value, label }) => (
-        <option key={value} value={value} selected={value === sort}>
-          <span class="text-sm">{label}</span>
-        </option>
-      ))}
+      {sortOptions
+        .map(({ value, label }) => ({
+          value,
+          label:
+            portugueseMappings[label as keyof typeof portugueseMappings] ??
+            label,
+        }))
+        .filter(({ label }) => label)
+        .map(({ value, label }) => (
+          <option key={value} value={value} selected={value === sort}>
+            <span class="text-sm">{label}</span>
+          </option>
+        ))}
     </select>
   );
 }

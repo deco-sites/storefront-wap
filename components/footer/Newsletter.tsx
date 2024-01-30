@@ -21,9 +21,7 @@ export interface Props {
   };
 }
 
-function Newsletter(
-  { content, layout = {} }: Props,
-) {
+function Newsletter({ content, layout = {} }: Props) {
   const { tiled = false } = layout;
   const loading = useSignal(false);
 
@@ -33,10 +31,11 @@ function Newsletter(
     try {
       loading.value = true;
 
-      const email =
-        (e.currentTarget.elements.namedItem("email") as RadioNodeList)?.value;
+      const email = (
+        e.currentTarget.elements.namedItem("email") as RadioNodeList
+      )?.value;
 
-      await invoke.vtex.actions.newsletter.subscribe({ email });
+      await invoke.wap.actions.newsletter.register({ email });
     } finally {
       loading.value = false;
     }
@@ -59,10 +58,7 @@ function Newsletter(
         {content?.description && <div>{content?.description}</div>}
       </div>
       <div class="flex flex-col gap-4">
-        <form
-          class="form-control"
-          onSubmit={handleSubmit}
-        >
+        <form class="form-control" onSubmit={handleSubmit}>
           <div class="flex flex-wrap gap-3">
             <input
               name="email"

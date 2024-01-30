@@ -6,8 +6,13 @@ export interface Props extends Omit<BtnProps, "onAddItem"> {
   idAtributoSimples: number;
 }
 
-function AddToCartButton({ productID, eventParams, idAtributoSimples }: Props) {
+function AddToCartButton({
+  productID,
+  eventParams,
+  idAtributoSimples = 0,
+}: Props) {
   const { addItems } = useCart();
+  console.log({ idAtributoSimples });
   const onAddItem = () =>
     addItems({
       tipo: "produto",

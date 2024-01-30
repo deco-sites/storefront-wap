@@ -3,11 +3,7 @@ import { invoke } from "$store/runtime.ts";
 import type { Product } from "apps/commerce/types.ts";
 import type { JSX } from "preact";
 
-export interface Props {
-  productID: Product["productID"];
-}
-
-function Notify({ productID }: Props) {
+function Contact() {
   const loading = useSignal(false);
 
   const handleSubmit: JSX.GenericEventHandler<HTMLFormElement> = async (e) => {
@@ -21,13 +17,15 @@ function Notify({ productID }: Props) {
       const email = (
         e.currentTarget.elements.namedItem("email") as RadioNodeList
       )?.value;
+      const contact = (
+        e.currentTarget.elements.namedItem("contact") as RadioNodeList
+      )?.value;
 
-      await invoke.wap.actions.product.solicitation({
-        idProduto: Number(productID),
-        idAtributoValor: 0,
+      await invoke.wap.actions.forms.contact({
         nome: name,
         email,
-        mailing: false,
+        hashEmail: "contato/formulario",
+        contato: contact,
       });
     } finally {
       loading.value = false;
@@ -35,12 +33,19 @@ function Notify({ productID }: Props) {
   };
 
   return (
-    <form class="form-control justify-start gap-2" onSubmit={handleSubmit}>
-      <span class="text-base">Este produto está indisponivel no momento</span>
-      <span class="text-sm">Avise-me quando estiver disponivel</span>
+    <form
+      class="container form-control justify-start gap-2"
+      onSubmit={handleSubmit}
+    >
+      <h1 class="text-base">Fale Conosco</h1>
 
       <input placeholder="Nome" class="input input-bordered" name="name" />
       <input placeholder="Email" class="input input-bordered" name="email" />
+      <input
+        placeholder="Contato"
+        class="input input-bordered"
+        name="contact"
+      />
 
       <button class="btn disabled:loading" disabled={loading}>
         Enviar
@@ -49,4 +54,4 @@ function Notify({ productID }: Props) {
   );
 }
 
-export default Notify;
+export default Contact;
