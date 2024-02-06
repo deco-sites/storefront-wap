@@ -45,8 +45,7 @@ function Sort({ sortOptions }: Props) {
       {sortOptions
         .map(({ value, label }) => ({
           value,
-          label:
-            portugueseMappings[label as keyof typeof portugueseMappings] ??
+          label: portugueseMappings[label as keyof typeof portugueseMappings] ??
             label,
         }))
         .filter(({ label }) => label)

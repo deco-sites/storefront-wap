@@ -32,21 +32,20 @@ function Cart() {
       onUpdateQuantity={(quantidade: number, index: number) =>
         quantidade === 0
           ? removeItem({
-              tipo: "produto",
-              idProduto: items[index]?.hash.idProduto,
-              idAtributoSimples: items[index]?.hash.idAtributoSimples,
-              idUnidadeVenda: items[index]?.hash.idUnidadeVenda,
-              idArmazem: items[index]?.hash.idArmazem,
-            })
+            tipo: "produto",
+            idProduto: items[index]?.hash.idProduto,
+            idAtributoSimples: items[index]?.hash.idAtributoSimples,
+            idUnidadeVenda: items[index]?.hash.idUnidadeVenda,
+            idArmazem: items[index]?.hash.idArmazem,
+          })
           : updateItem({
-              tipo: "produto",
-              quantidade,
-              idProduto: items[index]?.hash.idProduto,
-              idAtributoSimples: items[index]?.hash.idAtributoSimples,
-              idUnidadeVenda: items[index]?.hash.idUnidadeVenda,
-              idArmazem: items[index]?.hash.idArmazem,
-            })
-      }
+            tipo: "produto",
+            quantidade,
+            idProduto: items[index]?.hash.idProduto,
+            idAtributoSimples: items[index]?.hash.idAtributoSimples,
+            idUnidadeVenda: items[index]?.hash.idUnidadeVenda,
+            idArmazem: items[index]?.hash.idArmazem,
+          })}
       itemToAnalyticsItem={(index) => {
         const item = items[index];
 
