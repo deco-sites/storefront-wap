@@ -12,7 +12,6 @@ function AddToCartButton({
   idAtributoSimples = 0,
 }: Props) {
   const { addItems } = useCart();
-  console.log({ idAtributoSimples });
   const onAddItem = () =>
     addItems({
       tipo: "produto",

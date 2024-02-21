@@ -21,18 +21,16 @@ function WishlistButton({
   const listItem = useComputed(() => getItem(Number(productID)));
   const fetching = useSignal(false);
 
-  console.log(productID);
-
   const isUserLoggedIn = Boolean(user.value?.email);
   const inWishlist = Boolean(listItem.value);
 
-  console.log(inWishlist);
-
   return (
     <Button
-      class={variant === "icon"
-        ? "btn-circle btn-ghost gap-2"
-        : "btn-primary btn-outline gap-2"}
+      class={
+        variant === "icon"
+          ? "btn-circle btn-ghost gap-2"
+          : "btn-primary btn-outline gap-2"
+      }
       loading={fetching.value}
       aria-label="Add to wishlist"
       onClick={async (e) => {

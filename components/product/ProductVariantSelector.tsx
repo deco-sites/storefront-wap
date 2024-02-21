@@ -25,11 +25,13 @@ function VariantSelector({ product }: Props) {
                   <a href={link}>
                     <Avatar
                       content={value}
-                      variant={link === url
-                        ? "active"
-                        : link
-                        ? "default"
-                        : "disabled"}
+                      variant={
+                        link === url || url.includes(link)
+                          ? "active"
+                          : link
+                          ? "default"
+                          : "disabled"
+                      }
                     />
                   </a>
                 </li>
